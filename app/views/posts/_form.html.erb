@@ -2,7 +2,6 @@
   <% if post.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
       <ul>
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -13,12 +12,12 @@
 
   <div>
     <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
+    <%= form.text_field :title, placeholder: "Enter the title of your post", class: "form-input", required: true %>
   </div>
 
   <div>
     <%= form.label :content, style: "display: block" %>
-    <%= form.textarea :content %>
+    <%= form.textarea :content, placeholder: "Write your post content here...", class: "form-textarea", required: true %>
   </div>
 
   <div>

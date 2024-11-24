@@ -1,3 +1,8 @@
+<h1><%= @post.title %></h1>
+
+<!-- Vulnerable: content rendered with html_safe directly from user input -->
+<p><%= @post.content.html_safe %></p> <!-- Potential XSS vulnerability -->
+
 <p style="color: green"><%= notice %></p>
 
 <%= render @post %>
@@ -8,3 +13,9 @@
 
   <%= button_to "Destroy this post", @post, method: :delete %>
 </div>
+
+<!-- Vulnerable: user input inserted into JavaScript -->
+<script>
+  var userInput = "<%= params[:input] %>"; <!-- Malicious input can be injected here -->
+  document.write(userInput); <!-- Potential for XSS attack -->
+</script>

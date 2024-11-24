@@ -14,3 +14,9 @@
 </div>
 
 <%= link_to "New post", new_post_path %>
+
+<%= form_with url: search_posts_path, method: :get, local: true do |form| %>
+  <%= label_tag :query, "Search for posts:" %>
+  <%= text_field_tag :query, params[:query] %>
+  <%= submit_tag "Search" %>
+<% end %>
