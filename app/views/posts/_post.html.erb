@@ -1,12 +1,12 @@
 <div id="<%= dom_id post %>">
   <p>
     <strong>Title:</strong>
-    <%= post.title %>
+    <h1><%= post.title %></h1>
   </p>
 
   <p>
     <strong>Content:</strong>
-    <%= post.content %>
+    <p><%= h(post.content) %></p>
   </p>
 
 </div>

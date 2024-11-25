@@ -48,6 +48,12 @@ class PostsController < ApplicationController
     end
   end
 
+  def show
+    @post = Post.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to posts_path, alert: "Post not found."
+  end
+
   # DELETE /posts/1 or /posts/1.json
   def destroy
     @post.destroy!
@@ -58,6 +64,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def search
+    @posts = Post.where("title LIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(params[:query])}%")
+    render :index
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
@@ -66,6 +77,6 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.expect(post: [ :title, :content ])
+      params.require(:post).permit(:title, :content)
     end
 end
