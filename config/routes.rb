@@ -7,7 +7,11 @@ Rails.application.routes.draw do
 
   resources :posts do
     collection do
-      get 'search', to: 'posts#search'  # Explicitly define the search route
+      get 'search', to: 'posts#search'
     end
+  end
+
+  devise_scope :user do
+    get 'users/sign_out', to: 'devise/sessions#destroy'
   end
 end

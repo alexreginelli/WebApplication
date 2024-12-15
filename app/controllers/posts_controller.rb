@@ -6,7 +6,7 @@ class PostsController < ApplicationController
     @posts = Post.all
   end
 
-  # GET /posts/1 or /posts/1.json
+  # GET /posts/1 or /posts/1.json // SQL injection attack
   def show
     @post = Post.find_by(id: params[:id])
     if @post.nil?
@@ -30,11 +30,10 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to @post, notice: "Post was successfully created."
     else
-      render :new  # Re-render the form if there's an error
+      render :new 
     end
   end
 
-  # PATCH/PUT /posts/1 or /posts/1.json
   def update
     @post = Post.find(params[:id])
     if @post.update(post_params)
@@ -44,7 +43,6 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
   def destroy
     @post = Post.find(params[:id])
     @post.destroy
@@ -58,12 +56,10 @@ class PostsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_post
     @post = Post.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def post_params
     params.require(:post).permit(:title, :content)
   end
