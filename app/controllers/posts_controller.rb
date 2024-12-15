@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   #before_action :set_post, only: %i[ show edit update destroy ]
   before_action :authenticate_user!, except: [:index, :show]
+  respond_to :html, :json
 
   # GET /posts or /posts.json
   def index
@@ -18,6 +19,7 @@ class PostsController < ApplicationController
 
   # GET /posts/1/edit
   def edit
+    @post = Post.find(params[:id])
   end
 
   # POST /posts or /posts.json
@@ -37,6 +39,13 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1 or /posts/1.json
   def update
+    @post = Post.find_by(id: params[:id])  # Use find_by to avoid exceptions if post is not found
+  
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found"
+      return
+    end
+    
     respond_to do |format|
       if @post.update(post_params)
         format.html { redirect_to @post, notice: "Post was successfully updated." }
@@ -56,8 +65,15 @@ class PostsController < ApplicationController
 
   # DELETE /posts/1 or /posts/1.json
   def destroy
-    @post.destroy!
+    @post = Post.find_by(id: params[:id])  # Use find_by to avoid exceptions if post is not found
 
+    if @post.nil?
+      redirect_to posts_path, alert: "Post not found"
+      return
+    end
+  
+    @post.destroy # No need to use destroy! here, as destroy will not raise an exception
+  
     respond_to do |format|
       format.html { redirect_to posts_path, status: :see_other, notice: "Post was successfully destroyed." }
       format.json { head :no_content }
